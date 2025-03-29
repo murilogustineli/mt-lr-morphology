@@ -1,11 +1,10 @@
-import os
 import pandas as pd
 from pathlib import Path
 
 
 def get_data_path():
-    home = Path(os.path.expanduser("~"))
-    return f"{home}/github/gpt-sandbox/data"
+    """Get the base project directory."""
+    return Path(__file__).resolve().parent.parent
 
 
 def get_dataframe(file_name: str = "dataset-updated.xlsx"):
