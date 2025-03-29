@@ -98,10 +98,14 @@ def main(
     df = get_dataframe(file_name=dataset_name)
     abstracts = df["abstract"].tolist()  # list of abstracts
 
-    # run workflow for each abstract
+    # parameters
     data = []
+    file_name = f"output_results_{model}.csv"
     if use_subset:
         abstracts = abstracts[:5]  # use first 5 abstracts for testing
+        file_name = f"test_output_results_{model}.csv"
+
+    # run workflow for each abstract
     for idx, abstract in enumerate(abstracts):
         response = workflow(client, model, abstract, temperature, max_tokens)
         output, reasoning = extract_output_and_reasoning(response)
@@ -111,7 +115,6 @@ def main(
 
     # save results to a dataframe
     df_results = pd.DataFrame(data)
-    file_name = f"output_results_{model}.csv"
     write_dataframe(df_results, file_name)
 
 
