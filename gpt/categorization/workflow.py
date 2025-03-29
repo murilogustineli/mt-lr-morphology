@@ -145,7 +145,7 @@ def main(
     ] = 0.0,
     max_tokens: Annotated[
         int, typer.Option(help="The maximum number of tokens to generate")
-    ] = 250,
+    ] = 500,
 ):
     # load environment variables
     load_dotenv()
@@ -173,3 +173,8 @@ def main(
     df_results = pd.DataFrame(data)
     file_name = f"output_results_{model}.csv"
     write_dataframe(df_results, file_name)
+
+
+# models: gpt-4o-mini, gpt-4o
+# run this script in the terminal
+# python workflow.py --model gpt-4o-mini --dataset-name dataset-updated.xlsx --max-tokens 500
