@@ -8,48 +8,71 @@ from openai import OpenAI
 from gpt.config import get_data_path, get_dataframe
 
 
-def get_inclusion_exclusion():
-    inclusion_exclusion = """\
-    1. Must focus on the machine translation task. We will exclude results that focus on other tasks, such as automatic speech recognition or named entity recognition.
-    2. Must focus on at least one low resource language, which are languages with limited digital corpora.
-    3. Must use morphology in its methodology or reference the effects of morphology in its presentation of the problem or its analysis of results.
-    4. Must be peer-reviewed, must be a published academic conference paper, article, or book chapter.
+def get_research_questions():
+    research_questions = """\
+    1. What challenges do varying degrees of morphological complexity (e.g., isolating, fusional, agglutinative, and polysynthetic languages) pose to machine translation systems in a low-resource language context?
+    2. What techniques (e.g., rule-based methods, statistical models, or neural architectures) have been proposed to address these challenges?
+    3. How do morphology-aware techniques (e.g. subword modeling, morphological analyzers) compare in effectiveness for low-resource machine translation?
+    4. What are the specific findings, challenges, and proposed solutions and results for machine translation of languages in each different morphological typology (polysynthetic, agglutinative, fusional)?
     """
-    return inclusion_exclusion
+    return research_questions
 
 
 # Chain-of-Thought prompt
-def get_prompt(abstract, inclusion_exclusion):
+def chain_of_thought_prompt(abstract: str, research_questions: str):
     prompt = f"""\
-    I have an academic abstract that I would like to analyze based on specific inclusion and exclusion criteria.
+    You are an expert researcher. Your task is to analyze the abstract below and use its content to answer a set of specific research questions.
 
-    Step 1: Read the Abstract Carefully
+    ---
+
     Abstract:
     {abstract}
 
-    Step 2: Review the Inclusion and Exclusion Criteria
-    {inclusion_exclusion}
+    ---
 
-    Step 3: Analyze the Abstract Step by Step
-    - Does the abstract explicitly mention that it focuses on the machine translation task? Explain.
-    - Does it mention at least one low-resource language? If so, which one(s)? Explain.
-    - Does the methodology use morphology or discuss its effects? Provide details.
-    - Is it a peer-reviewed academic paper (conference paper, article, or book chapter)? Provide reasoning.
+    Research Questions:
+    {research_questions}
 
-    Step 4: Make a Final Decision
-    Based on the above step-by-step analysis, classify the abstract into TRUE or FALSE and return the REASONING for the classification.
+    ---
 
-    Return the following:
-    Step-by-Step Analysis and your reasoning for each step:
-    - Mention of machine translation task: TRUE/FALSE
-    - Mention of low-resource language(s): TRUE/FALSE
-    - Use of morphology: TRUE/FALSE
-    - Peer-reviewed status: TRUE/FALSE
+    Follow these steps carefully:
 
-    OUTPUT: TRUE or FALSE if this abstract meets the inclusion and exclusion criteria.
-    REASONING: Provide a brief explanation summarizing your decision.
+    Step 1: Read and Understand the Abstract
+    Carefully read the abstract to extract all relevant information, including stated challenges, techniques used, comparisons, findings, and specific language typologies.
+
+    Step 2: Analyze the Abstract for Each Research Question
+    For each question below, extract answers **only if the abstract provides evidence or insights**. If the abstract does not include the required information, state that explicitly.
+
+    Step 3: Provide a Structured Answer with Reasoning
+    For each research question, write:
+    - Answer: A direct response based on the abstract.
+    - Evidence: A brief explanation or citation of the part of the abstract that supports your answer.
+
+    ---
+
+    Return your response in the following format:
+
+    OUTPUT:
+    1. Challenges of morphological complexity
+    Answer:
+    Evidence:
+
+    2. Proposed techniques
+    Answer:
+    Evidence:
+
+    3. Morphology-aware techniques**
+    Answer:
+    Evidence:
+
+    4. Specific findings per morphological typology (e.g., polysynthetic, agglutinative, fusional)
+    Answer:
+    Evidence:
+
+    ---
+
+    REASONING: Briefly summarize what the abstract reveals overall in relation to the research questions. Note any gaps or limitations in the information provided.
     """
-    # Only return the OUTPUT and REASONING. Do not return any previous steps.
     return prompt
 
 
@@ -88,7 +111,7 @@ def workflow(
     temperature: float = 0.0,
     max_tokens: int = 250,
 ) -> pd.DataFrame:
-    prompt = get_prompt(abstract, get_inclusion_exclusion())
+    prompt = chain_of_thought_prompt(abstract, get_research_questions())
     response = prompt_gpt(client, prompt, model, temperature, max_tokens)
     return response
 
@@ -114,6 +137,9 @@ def main(
     model: Annotated[
         str, typer.Option(help="The model to use for the analysis")
     ] = "gpt-4o-mini",
+    dataset_name: Annotated[
+        str, typer.Option(help="The name of the dataset")
+    ] = "dataset-updated.xlsx",
     temperature: Annotated[
         float, typer.Option(help="The temperature for sampling")
     ] = 0.0,
@@ -145,5 +171,5 @@ def main(
 
     # save results to a dataframe
     df_results = pd.DataFrame(data)
-    file_name = f"abstract_results_{model}_v2.csv"
+    file_name = f"output_results_{model}.csv"
     write_dataframe(df_results, file_name)
