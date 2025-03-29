@@ -74,13 +74,16 @@ def main(
     ] = "gpt-4o-mini",
     dataset_name: Annotated[
         str, typer.Option(help="The name of the dataset")
-    ] = "dataset-updated.xlsx",
+    ] = "abstracts.xlsx",
     temperature: Annotated[
         float, typer.Option(help="The temperature for sampling")
     ] = 0.0,
     max_tokens: Annotated[
         int, typer.Option(help="The maximum number of tokens to generate")
     ] = 500,
+    use_subset: Annotated[
+        bool, typer.Option(help="Use a subset of the dataset")
+    ] = False,
 ):
     # load environment variables
     load_dotenv()
@@ -92,11 +95,13 @@ def main(
     client = OpenAI(api_key=api_key)
 
     # get abstracts
-    df = get_dataframe(file_name="dataset-updated.xlsx")
-    abstracts = df["abstract"].tolist()  # list of 255 abstracts
+    df = get_dataframe(file_name=dataset_name)
+    abstracts = df["abstract"].tolist()  # list of abstracts
 
     # run workflow for each abstract
     data = []
+    if use_subset:
+        abstracts = abstracts[:5]  # use first 5 abstracts for testing
     for idx, abstract in enumerate(abstracts):
         response = workflow(client, model, abstract, temperature, max_tokens)
         output, reasoning = extract_output_and_reasoning(response)
@@ -112,4 +117,4 @@ def main(
 
 # models: gpt-4o-mini, gpt-4o
 # run this script in the terminal
-# python workflow.py --model gpt-4o-mini --dataset-name dataset-updated.xlsx --max-tokens 500
+# gpt categorization generate_answers --model gpt-4o-mini --use-subset
