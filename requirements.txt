@@ -1,0 +1,15 @@
+openai
+numpy
+pandas
+matplotlib
+typer
+python-dotenv
+requests
+openpyxl
+
+# developer tools
+jupyterlab
+ipywidgets
+ruff
+pre-commit
+pytest
