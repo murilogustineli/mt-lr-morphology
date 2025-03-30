@@ -106,6 +106,7 @@ def main(
         file_name = f"test_output_results_{model}.csv"
 
     # run workflow for each abstract
+    print(f"Running workflow for {len(abstracts)} abstracts...")
     for idx, abstract in enumerate(abstracts):
         response = workflow(client, model, abstract, temperature, max_tokens)
         output, reasoning = extract_output_and_reasoning(response)
