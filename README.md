@@ -61,8 +61,8 @@ uv pip install -e .
 This:
 
 1. Installs all required packages from `requirements.txt`
-2. Registers the `gpt` CLI for use
-   - e.g., `gpt categorization generate_answers` runs the `generate_answers.py` file
+2. Registers the `gpt` CLI for use. (e.g., the command below runs the `generate_answers.py` file)
+   > `gpt categorization generate_answers`
 3. Makes your local code changes immediately available without reinstallation
 
 ### 4. Set Up Pre-Commit Hooks
