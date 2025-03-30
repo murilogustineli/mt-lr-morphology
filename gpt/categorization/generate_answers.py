@@ -120,5 +120,5 @@ def main(
 
 
 # models: gpt-4o-mini, gpt-4o
-# run this script in the terminal
+# run this script in the terminal:
 # gpt categorization generate_answers --model gpt-4o-mini --use-subset

@@ -1,0 +1,54 @@
+import typer
+import pandas as pd
+from typing_extensions import Annotated
+from gpt.config import get_data_path, get_dataframe
+
+
+def extract_abstracts(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Extracts the abstracts from the dataframe and returns a new dataframe with the abstracts.
+
+    Args:
+        df (pd.DataFrame): The input dataframe containing the abstracts.
+
+    Returns:
+        pd.DataFrame: A new dataframe containing the extracted abstracts.
+    """
+    # filter for True abstracts in status column
+    # Convert string "True"/"False" to actual booleans, if needed
+    df["status"] = df["status"].astype(str)
+    df_abs = df[df["status"] == "True"]
+    return df_abs
+
+
+def main(
+    file_name: Annotated[
+        str, typer.Option(help="The name of the dataset")
+    ] = "dataset-updated.xlsx",
+    output_file_name: Annotated[
+        str, typer.Option(help="The name of the output dataset with abstracts")
+    ] = "abstracts.xlsx",
+):
+    """
+    Main function to extract abstracts from the dataset.
+
+    Args:
+        file_name (str): The name of the dataset file.
+    """
+    # load the dataset
+    df = get_dataframe(file_name=file_name)
+
+    # extract abstracts
+    df_abs = extract_abstracts(df)
+
+    # save the extracted abstracts to a new file
+    base_dir = get_data_path()
+    output_path = f"{base_dir}/{output_file_name}"
+    df_abs.to_excel(output_path, index=False)
+    print(f"Extracted abstracts saved to {output_file_name}")
+    print(f"Number of abstracts extracted: {len(df_abs)}")
+
+
+# run the script:
+# gpt preprocessing extract_abstracts --file-name dataset-updated.xlsx --output-file-name abstracts.xlsx
+# gpt preprocessing extract_abstracts
