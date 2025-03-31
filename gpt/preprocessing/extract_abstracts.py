@@ -15,9 +15,9 @@ def extract_abstracts(df: pd.DataFrame, col_name: str) -> pd.DataFrame:
         pd.DataFrame: A new dataframe containing the extracted abstracts.
     """
     # convert string "True"/"False" to actual booleans, if needed
-    df[col_name] = df[col_name].astype(str)
+    df[col_name] = df[col_name].astype(str).str.lower()
     # filter for True abstracts in status column
-    df_abs = df[df[col_name] == "True"]
+    df_abs = df[df[col_name].isin(["true", "maybe"])]
     return df_abs
 
 
