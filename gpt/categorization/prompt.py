@@ -51,7 +51,7 @@ def chain_of_thought_prompt(abstract: str, research_questions: str):
     Answer:
     Evidence:
 
-    3. Morphology-aware techniques**
+    3. Morphology-aware techniques
     Answer:
     Evidence:
 

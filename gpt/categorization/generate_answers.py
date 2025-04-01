@@ -24,7 +24,6 @@ def prompt_gpt(
         messages=[
             {
                 "role": "system",
-                # "content": f"You are a helpful assistant designed to answer the user's prompt.",
                 "content": "You are a helpful assistant designed to carefully analyze academic abstracts based on specific inclusion and exclusion criteria.",
             },
             {
@@ -121,4 +120,4 @@ def main(
 
 # models: gpt-4o-mini, gpt-4o
 # run this script in the terminal:
-# gpt categorization generate_answers --model gpt-4o-mini --use-subset
+# gpt categorization generate_answers --model gpt-4o-mini --use-subset --max-tokens 500

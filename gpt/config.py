@@ -7,7 +7,12 @@ def get_data_path():
     return Path(__file__).resolve().parent.parent / "data"
 
 
-def get_dataframe(file_name: str = "dataset-updated.xlsx"):
+def get_dataframe(
+    file_name: str = "dataset-updated.xlsx", read_csv: bool = False
+) -> pd.DataFrame:
     data_path = f"{get_data_path()}/{file_name}"
-    df = pd.read_excel(data_path)
+    if read_csv:
+        df = pd.read_csv(data_path)
+    else:
+        df = pd.read_excel(data_path)
     return df
