@@ -24,7 +24,6 @@ def prompt_gpt(
         messages=[
             {
                 "role": "system",
-                # "content": f"You are a helpful assistant designed to answer the user's prompt.",
                 "content": "You are a helpful assistant designed to carefully analyze academic abstracts based on specific inclusion and exclusion criteria.",
             },
             {
