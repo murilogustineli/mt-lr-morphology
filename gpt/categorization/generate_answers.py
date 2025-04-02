@@ -62,7 +62,7 @@ def extract_output_and_reasoning(result: str) -> tuple:
 
 
 def write_dataframe(df, file_name="abstract_results.csv"):
-    data_path = f"{get_data_path()}/{file_name}"
+    data_path = f"{get_data_path()}/generated_answers/{file_name}"
     df.to_csv(data_path, index=False)
     print(f"Results saved to {data_path}")
 
@@ -109,7 +109,9 @@ def main(
     for idx, abstract in enumerate(abstracts):
         response = workflow(client, model, abstract, temperature, max_tokens)
         output, reasoning = extract_output_and_reasoning(response)
-        data.append({"abstract": abstract, "output": output, "reasoning": reasoning})
+        data.append(
+            {"abstract": abstract, "generated_anwers": output, "reasoning": reasoning}
+        )
         if idx % 1 == 0:
             print(f"processed {idx+1}/{len(abstracts)} abstracts...")
 
