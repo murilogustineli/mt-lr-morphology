@@ -38,7 +38,7 @@ def prompt_gpt(
 
 
 # query ChatGPT
-def workflow(
+def query_gpt(
     client,
     model,
     abstract: str,
@@ -67,23 +67,18 @@ def write_dataframe(df, file_name="abstract_results.csv"):
     print(f"Results saved to {data_path}")
 
 
-def main(
-    model: Annotated[
-        str, typer.Option(help="The model to use for the analysis")
-    ] = "gpt-4o-mini",
-    dataset_name: Annotated[
-        str, typer.Option(help="The name of the dataset")
-    ] = "abstracts.xlsx",
-    temperature: Annotated[
-        float, typer.Option(help="The temperature for sampling")
-    ] = 0.0,
-    max_tokens: Annotated[
-        int, typer.Option(help="The maximum number of tokens to generate")
-    ] = 500,
-    use_subset: Annotated[
-        bool, typer.Option(help="Use a subset of the dataset")
-    ] = False,
+def workflow(
+    model: str = "gpt-4o-mini",
+    dataset_name: str = "full-text.csv",
+    temperature: float = 0.0,
+    max_tokens: int = 500,
+    use_abstract: bool = False,
+    limit_papers: int = None,
 ):
+    """
+    Workflow function to generate answers for full-text or abstract papers.
+    """
+
     # load environment variables
     load_dotenv()
 
@@ -94,32 +89,73 @@ def main(
     client = OpenAI(api_key=api_key)
 
     # get abstracts
-    df = get_dataframe(file_name=dataset_name)
-    abstracts = df["abstract"].tolist()  # list of abstracts
+    if use_abstract:
+        dataset_path = "extracted_data/abstracts.xlsx"
+        df = get_dataframe(file_name=dataset_path)
+        col_name = "abstract"
+    else:
+        dataset_name = "full-text.csv"
+        df = get_dataframe(file_name=dataset_name, read_csv=True)
+        col_name = "text"
 
-    # parameters
-    data = []
-    file_name = f"output_results_{model}.csv"
-    if use_subset:
-        abstracts = abstracts[:5]  # use first 5 abstracts for testing
-        file_name = f"test_output_results_{model}.csv"
+    # limit number of papers to process
+    file_name = f"{col_name}_answers_{model}.csv"
+    if limit_papers:
+        df = df.sample(n=limit_papers, random_state=42)  # for reproducibility
+        file_name = f"limit_n={limit_papers}_{file_name}"
+
+    # convert column to list
+    papers = df[col_name].tolist()  # list of full-text papers or abstracts
+    titles = df["title"].tolist()  # list of titles
 
     # run workflow for each abstract
-    print(f"Running workflow for {len(abstracts)} abstracts...")
-    for idx, abstract in enumerate(abstracts):
-        response = workflow(client, model, abstract, temperature, max_tokens)
+    data = []
+    print(f"Running workflow for {len(papers)} papers...")
+    for idx, (text, title) in enumerate(zip(papers, titles)):
+        response = query_gpt(client, model, text, temperature, max_tokens)
         output, reasoning = extract_output_and_reasoning(response)
         data.append(
-            {"abstract": abstract, "generated_anwers": output, "reasoning": reasoning}
+            {"title": title, "generated_answers": output, "reasoning": reasoning}
         )
         if idx % 1 == 0:
-            print(f"processed {idx+1}/{len(abstracts)} abstracts...")
+            print(f"processed {idx+1}/{len(papers)} abstracts...")
 
     # save results to a dataframe
     df_results = pd.DataFrame(data)
     write_dataframe(df_results, file_name)
 
 
+def main(
+    model: Annotated[
+        str, typer.Option(help="The model to use for the analysis")
+    ] = "gpt-4o-mini",
+    dataset_name: Annotated[
+        str, typer.Option(help="The name of the dataset")
+    ] = "full-text.csv",
+    temperature: Annotated[
+        float, typer.Option(help="The temperature for sampling")
+    ] = 0.0,
+    max_tokens: Annotated[
+        int, typer.Option(help="The maximum number of tokens to generate")
+    ] = 500,
+    use_abstract: Annotated[
+        bool, typer.Option(help="Use a subset of the dataset")
+    ] = False,
+    limit_papers: Annotated[
+        int, typer.Option(help="Limit the number of papers to process")
+    ] = None,
+):
+    # run workflow
+    workflow(
+        model,
+        dataset_name,
+        temperature,
+        max_tokens,
+        use_abstract,
+        limit_papers,
+    )
+
+
 # models: gpt-4o-mini, gpt-4o
 # run this script in the terminal:
-# gpt categorization generate_answers --model gpt-4o-mini --use-subset --max-tokens 500
+# gpt categorization generate_answers --model gpt-4o-mini --limit-papers 30 --use-subset

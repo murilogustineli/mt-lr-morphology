@@ -9,14 +9,24 @@ def get_research_questions():
 
 
 # Chain-of-Thought prompt
-def chain_of_thought_prompt(abstract: str, research_questions: str):
+def chain_of_thought_prompt(text: str, research_questions: str):
+    """
+    Generates a prompt for the language model to analyze the full-text or abstract and answer specific research questions.
+    Args:
+        text (str): The full-text OR abstract or full text of the paper.
+        research_questions (str): The research questions to be answered.
+    Returns:
+        str: The generated prompt.
+    """
+
+    # Define the prompt template
     prompt = f"""\
     You are an expert researcher. Your task is to analyze the abstract below and use its content to answer a set of specific research questions.
 
     ---
 
-    Abstract:
-    {abstract}
+    Paper:
+    {text}
 
     ---
 
