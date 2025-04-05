@@ -71,7 +71,7 @@ def workflow(
     model: str = "gpt-4o-mini",
     dataset_name: str = "full-text.csv",
     temperature: float = 0.0,
-    max_tokens: int = 500,
+    max_tokens: int = 600,
     use_abstract: bool = False,
     limit_papers: int = None,
 ):
@@ -118,7 +118,7 @@ def workflow(
             {"title": title, "generated_answers": output, "reasoning": reasoning}
         )
         if idx % 1 == 0:
-            print(f"processed {idx+1}/{len(papers)} abstracts...")
+            print(f"processed {idx+1}/{len(papers)} papers...")
 
     # save results to a dataframe
     df_results = pd.DataFrame(data)
@@ -137,7 +137,7 @@ def main(
     ] = 0.0,
     max_tokens: Annotated[
         int, typer.Option(help="The maximum number of tokens to generate")
-    ] = 500,
+    ] = 600,
     use_abstract: Annotated[
         bool, typer.Option(help="Use a subset of the dataset")
     ] = False,
@@ -158,4 +158,4 @@ def main(
 
 # models: gpt-4o-mini, gpt-4o
 # run this script in the terminal:
-# gpt categorization generate_answers --model gpt-4o-mini --limit-papers 30 --use-subset
+# gpt categorization generate_answers --model gpt-4o-mini --limit-papers 30
