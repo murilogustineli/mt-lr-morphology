@@ -1,22 +1,32 @@
 def get_research_questions():
     research_questions = """\
-    1. What challenges do varying degrees of morphological complexity (e.g., isolating, fusional, agglutinative, and polysynthetic languages) pose to machine translation systems in a low-resource language context?
-    2. What techniques (e.g., rule-based methods, statistical models, or neural architectures) have been proposed to address these challenges?
-    3. How do morphology-aware techniques (e.g. subword modeling, morphological analyzers) compare in effectiveness for low-resource machine translation?
-    4. What are the specific findings, challenges, and proposed solutions and results for machine translation of languages in each different morphological typology (polysynthetic, agglutinative, fusional)?
+    1. Does the paper discuss the challenges posed by the morphological complexity of the target language(s)? If so, what specific challenges are identified for languages with isolating, fusional, agglutinative, or polysynthetic structures in a low-resource context?
+    2. What techniques does the paper propose or evaluate to address the challenges of morphological complexity in low-resource machine translation? For instance, are these rule-based, statistical, or neural methods?
+    3. If there are any morphology-aware techniques used in the paper (e.g., subword modeling, morphological analyzers, morpheme segmentation), how do they compare to other approaches or baselines in terms of effectiveness?
+    4. Does the paper provide findings, identify challenges, or propose solutions that are specific to any particular morphological typology (e.g., polysynthetic, agglutinative, fusional)? What are the reported outcomes for each typology, if any?
     """
     return research_questions
 
 
 # Chain-of-Thought prompt
-def chain_of_thought_prompt(abstract: str, research_questions: str):
+def chain_of_thought_prompt(text: str, research_questions: str):
+    """
+    Generates a prompt for the language model to analyze the full-text or abstract and answer specific research questions.
+    Args:
+        text (str): The full-text OR abstract or full text of the paper.
+        research_questions (str): The research questions to be answered.
+    Returns:
+        str: The generated prompt.
+    """
+
+    # Define the prompt template
     prompt = f"""\
     You are an expert researcher. Your task is to analyze the abstract below and use its content to answer a set of specific research questions.
 
     ---
 
-    Abstract:
-    {abstract}
+    Paper:
+    {text}
 
     ---
 

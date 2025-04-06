@@ -8,11 +8,12 @@ def get_data_path():
 
 
 def get_dataframe(
-    file_name: str = "dataset-updated.xlsx", read_csv: bool = False
+    file_name: str = "dataset-updated.xlsx",
+    read_csv: bool = False,
 ) -> pd.DataFrame:
-    data_path = f"{get_data_path()}/{file_name}"
+    input_path = f"{get_data_path()}/{file_name}"
     if read_csv:
-        df = pd.read_csv(data_path)
+        df = pd.read_csv(input_path)
     else:
-        df = pd.read_excel(data_path)
+        df = pd.read_excel(input_path)
     return df

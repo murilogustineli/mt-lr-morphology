@@ -46,7 +46,7 @@ def main(
 
     # save the extracted abstracts to a new file
     base_dir = get_data_path()
-    output_path = f"{base_dir}/{output_file_name}"
+    output_path = f"{base_dir}/extracted_data/{output_file_name}"
     df_abs.to_excel(output_path, index=False)
     print(f"Extracted abstracts saved to {output_file_name}")
     print(f"Number of abstracts extracted: {len(df_abs)}")
