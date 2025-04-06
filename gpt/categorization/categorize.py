@@ -182,7 +182,7 @@ def main(
     ] = "gpt-4o-mini",
     dataset_name: Annotated[
         str, typer.Option(help="The name of the dataset")
-    ] = "full-text.csv",
+    ] = "limit_n=30_text_answers_gpt-4o.csv",
     temperature: Annotated[
         float, typer.Option(help="The temperature for sampling")
     ] = 0.0,
