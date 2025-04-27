@@ -4,8 +4,28 @@ version = "0.1.1"
 authors = [{ name = "Murilo Gustineli", email = "murilogustineli@gatech.edu" }]
 description = "GPT helper package for morphological analysis"
 readme = "README.md"
-requires-python = ">=3.8"
-dynamic = ["dependencies"]
+requires-python = ">=3.9"
+dependencies = [
+    "openai",
+    "numpy",
+    "pandas",
+    "matplotlib",
+    "typer",
+    "python-dotenv",
+    "requests",
+    "openpyxl",
+    "ipykernel>=6.29.5",
+]
+
+[project.optional-dependencies]
+dev = [
+    "jupyterlab",
+    "ipywidgets",
+    "ipykernel",
+    "ruff",
+    "pre-commit",
+    "pytest",
+]
 
 [project.urls]
 Homepage = "https://github.com/murilogustineli/mt-lr-morphology"
@@ -17,9 +37,6 @@ gpt = "gpt.cli:app"
 [build-system]
 requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
-
-[tool.setuptools.dynamic]
-dependencies = { file = "requirements.txt" }
 
 [tool.setuptools.packages.find]
 where = ["."]

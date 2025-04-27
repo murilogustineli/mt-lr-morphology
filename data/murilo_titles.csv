@@ -1,0 +1,48 @@
+title
+a morphological analyser for maltese
+a novel morphological analysis based approach for dynamic detection of inflected gujarati idioms
+a systematic analysis of subwords and cross-lingual transfer in multilingual translation
+an evaluation of subword segmentation strategies for neural machine translation of morphologically rich languages
+analysis of subword tokenization for transformer model in neural machine translation between myanmar and english languages
+bpe vs. morphological segmentation: a case study on machine translation of four polysynthetic languages
+chinese-uyghur bilingual lexicon induction based on morpheme sequence and weak supervision
+cognate-aware morphological segmentation for multilingual neural translation
+deep learning approach for the morphological synthesis in malayalam and tamil at the character level
+developing language technology tools and resources for a resource-poor language: sindhi
+distilling knowledge in machine translation of agglutinative languages with backward and morphological decoders
+exploring different granularity in mongolian-chinese machine translation based on cnn
+exploring the advantages of corpus in neural machine translation of agglutinative language
+hindi to dravidian language neural machine translation systems
+hybrid sub-word segmentation for handling long tail in morphologically rich low resource languages
+improved spoken uyghur segmentation for neural machine translation
+improving mongolian-chinese neural machine translation with morphological noise
+linguistically enhanced word segmentation for better neural machine translation of low resource agglutinative languages
+log-linear models for uyghur segmentation in spoken language translation
+low-resource nmt: an empirical study on the effect of rich morphological word segmentation on inuktitut
+machine translation of telugu plural pronoun declensions to sanskrit
+machine translation of telugu singular pronoun inflections to sanskrit
+morpheme based amharic-kistanigna bi-directional machine translation using deep learning
+morphological segmentation for extracting spanish-nahuatl bilingual lexicon; [segmentacion morfologica para extraer un lexicon bilingue espanol-nahuatl]
+morphological segmentation method for turkic language neural machine translation
+morphological segmentation to improve crosslingual word embeddings for low resource languages
+morphologically-guided segmentation for translation of agglutinative low-resource languages
+morphology model and segmentation for old turkic language
+morphology-aware word-segmentation in dialectal arabic adaptation of neural machine translation
+multi-source neural model for machine translation of agglutinative language
+nlp-based processing of gujarati compound word sandhis generation and segmentation
+nlprl system for very low resource supervised machine translation
+noise-based adversarial training for enhancing agglutinative neural machine translation
+optimal word segmentation for neural machine translation into dravidian languages
+parallel corpora preparation for bi-directional amharic-kistanigna machine translation
+research on uyghur morphological segmentation based on long sequence labeling method
+revisiting syllables in language modelling and their application on low-resource machine translation
+semi-supervised learning for mongolian morphological segmentation
+subword segmental machine translation: unifying segmentation and target sentence generation
+the effectiveness of morphology-aware segmentation in low-resource neural machine translation
+the research on morpheme-based mongolian-chinese neural machine translation
+tokenisation in machine translation does matter: the impact of different tokenisation approaches for maltese
+transliteration and byte pair encoding to improve tamil to sinhala neural machine translation
+using guarani verbal morphology on guarani-spanish machine translation experiments; [uso de la morfologia verbal del guarani en experimentos de traduccion automatica guarani-espanol]
+using morphemes from agglutinative languages like quechua and finnish to aid in low-resource translation
+using the nunavut hansard data for experiments in morphological analysis and machine translation
+"utilizing lexical similarity between related, low-resource languages for pivot-based smt"
